@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SmartBitExamen", "SmartBitExamen\", "{D1AD3EC4-3FA8-408C-8986-BFD5E6E30D79}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_43729"
+		Debug.AspNetCompiler.PhysicalPath = "SmartBitExamen\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_43729\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_43729"
+		Release.AspNetCompiler.PhysicalPath = "SmartBitExamen\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_43729\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "43729"
+		SlnRelativePath = "SmartBitExamen\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1AD3EC4-3FA8-408C-8986-BFD5E6E30D79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1AD3EC4-3FA8-408C-8986-BFD5E6E30D79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91187B82-B9BD-4696-9A08-B7DC82F453EA}
+	EndGlobalSection
+EndGlobal

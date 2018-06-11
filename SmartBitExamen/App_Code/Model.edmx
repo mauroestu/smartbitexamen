@@ -1,0 +1,603 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="smarbitModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="career">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="is_enabled" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="course">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="is_enabled" Type="bit" Nullable="false" />
+          <Property Name="id_career" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="incription_course">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="note" Type="int" Nullable="false" />
+          <Property Name="observation" Type="varchar" MaxLength="255" />
+          <Property Name="id_student" Type="int" Nullable="false" />
+          <Property Name="id_course" Type="int" Nullable="false" />
+          <Property Name="id_state" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="result_state">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="teacher_course_assignement">
+          <Key>
+            <PropertyRef Name="id_assign" />
+          </Key>
+          <Property Name="id_assign" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_course" Type="int" Nullable="false" />
+          <Property Name="id_teacher" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="complete_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="dpi" Type="bigint" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="birth_date" Type="datetime" Nullable="false" />
+          <Property Name="phone" Type="bigint" />
+          <Property Name="cell_phone" Type="bigint" />
+          <Property Name="is_enabled" Type="bit" Nullable="false" />
+          <Property Name="id_type" Type="int" Nullable="false" />
+          <Property Name="id_career" Type="int" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'smarbit.sys.database_firewall_rules' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="start_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="end_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="create_date" Type="datetime" Nullable="false" />
+          <Property Name="modify_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="course_career_FK">
+          <End Role="career" Type="Self.career" Multiplicity="1" />
+          <End Role="course" Type="Self.course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="career">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="course">
+              <PropertyRef Name="id_career" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="course_user_FK">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="incription_course" Type="Self.incription_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="incription_course">
+              <PropertyRef Name="id_student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="state_inscription">
+          <End Role="result_state" Type="Self.result_state" Multiplicity="1" />
+          <End Role="incription_course" Type="Self.incription_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="result_state">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="incription_course">
+              <PropertyRef Name="id_state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teacher_coure_fk">
+          <End Role="teacher_course_assignement" Type="Self.teacher_course_assignement" Multiplicity="1" />
+          <End Role="incription_course" Type="Self.incription_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_course_assignement">
+              <PropertyRef Name="id_assign" />
+            </Principal>
+            <Dependent Role="incription_course">
+              <PropertyRef Name="id_course" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teacher_course_assignement_course_FK">
+          <End Role="course" Type="Self.course" Multiplicity="1" />
+          <End Role="teacher_course_assignement" Type="Self.teacher_course_assignement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="course">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teacher_course_assignement">
+              <PropertyRef Name="id_course" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teacher_course_assignement_user_FK">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="teacher_course_assignement" Type="Self.teacher_course_assignement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teacher_course_assignement">
+              <PropertyRef Name="id_teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_career_FK">
+          <End Role="career" Type="Self.career" Multiplicity="0..1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="career">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="id_career" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_type_FK">
+          <End Role="user_type" Type="Self.user_type" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="id_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="smarbitModelStoreContainer">
+          <EntitySet Name="career" EntityType="Self.career" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="course" EntityType="Self.course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="incription_course" EntityType="Self.incription_course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="result_state" EntityType="Self.result_state" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teacher_course_assignement" EntityType="Self.teacher_course_assignement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_type" EntityType="Self.user_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
+            <DefiningQuery>SELECT 
+    [database_firewall_rules].[id] AS [id], 
+    [database_firewall_rules].[name] AS [name], 
+    [database_firewall_rules].[start_ip_address] AS [start_ip_address], 
+    [database_firewall_rules].[end_ip_address] AS [end_ip_address], 
+    [database_firewall_rules].[create_date] AS [create_date], 
+    [database_firewall_rules].[modify_date] AS [modify_date]
+    FROM [sys].[database_firewall_rules] AS [database_firewall_rules]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="course_career_FK" Association="Self.course_career_FK">
+            <End Role="career" EntitySet="career" />
+            <End Role="course" EntitySet="course" />
+          </AssociationSet>
+          <AssociationSet Name="course_user_FK" Association="Self.course_user_FK">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="incription_course" EntitySet="incription_course" />
+          </AssociationSet>
+          <AssociationSet Name="state_inscription" Association="Self.state_inscription">
+            <End Role="result_state" EntitySet="result_state" />
+            <End Role="incription_course" EntitySet="incription_course" />
+          </AssociationSet>
+          <AssociationSet Name="teacher_coure_fk" Association="Self.teacher_coure_fk">
+            <End Role="teacher_course_assignement" EntitySet="teacher_course_assignement" />
+            <End Role="incription_course" EntitySet="incription_course" />
+          </AssociationSet>
+          <AssociationSet Name="teacher_course_assignement_course_FK" Association="Self.teacher_course_assignement_course_FK">
+            <End Role="course" EntitySet="course" />
+            <End Role="teacher_course_assignement" EntitySet="teacher_course_assignement" />
+          </AssociationSet>
+          <AssociationSet Name="teacher_course_assignement_user_FK" Association="Self.teacher_course_assignement_user_FK">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="teacher_course_assignement" EntitySet="teacher_course_assignement" />
+          </AssociationSet>
+          <AssociationSet Name="user_career_FK" Association="Self.user_career_FK">
+            <End Role="career" EntitySet="career" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="user_type_FK" Association="Self.user_type_FK">
+            <End Role="user_type" EntitySet="user_type" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="smarbitModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="career">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="is_enabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="course" Relationship="Self.course_career_FK" FromRole="career" ToRole="course" />
+          <NavigationProperty Name="usuario" Relationship="Self.user_career_FK" FromRole="career" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="course">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="is_enabled" Type="Boolean" Nullable="false" />
+          <Property Name="id_career" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="career" Relationship="Self.course_career_FK" FromRole="course" ToRole="career" />
+          <NavigationProperty Name="teacher_course_assignement" Relationship="Self.teacher_course_assignement_course_FK" FromRole="course" ToRole="teacher_course_assignement" />
+        </EntityType>
+        <EntityType Name="incription_course">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="note" Type="Int32" Nullable="false" />
+          <Property Name="observation" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="id_student" Type="Int32" Nullable="false" />
+          <Property Name="id_course" Type="Int32" Nullable="false" />
+          <Property Name="id_state" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="usuario" Relationship="Self.course_user_FK" FromRole="incription_course" ToRole="usuario" />
+          <NavigationProperty Name="result_state" Relationship="Self.state_inscription" FromRole="incription_course" ToRole="result_state" />
+          <NavigationProperty Name="teacher_course_assignement" Relationship="Self.teacher_coure_fk" FromRole="incription_course" ToRole="teacher_course_assignement" />
+        </EntityType>
+        <EntityType Name="result_state">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="incription_course" Relationship="Self.state_inscription" FromRole="result_state" ToRole="incription_course" />
+        </EntityType>
+        <EntityType Name="teacher_course_assignement">
+          <Key>
+            <PropertyRef Name="id_assign" />
+          </Key>
+          <Property Name="id_assign" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_course" Type="Int32" Nullable="false" />
+          <Property Name="id_teacher" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="course" Relationship="Self.teacher_course_assignement_course_FK" FromRole="teacher_course_assignement" ToRole="course" />
+          <NavigationProperty Name="incription_course" Relationship="Self.teacher_coure_fk" FromRole="teacher_course_assignement" ToRole="incription_course" />
+          <NavigationProperty Name="usuario" Relationship="Self.teacher_course_assignement_user_FK" FromRole="teacher_course_assignement" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="user_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="usuario" Relationship="Self.user_type_FK" FromRole="user_type" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="complete_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dpi" Type="Int64" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="birth_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="phone" Type="Int64" />
+          <Property Name="cell_phone" Type="Int64" />
+          <Property Name="is_enabled" Type="Boolean" Nullable="false" />
+          <Property Name="id_type" Type="Int32" Nullable="false" />
+          <Property Name="id_career" Type="Int32" />
+          <NavigationProperty Name="career" Relationship="Self.user_career_FK" FromRole="usuario" ToRole="career" />
+          <NavigationProperty Name="incription_course" Relationship="Self.course_user_FK" FromRole="usuario" ToRole="incription_course" />
+          <NavigationProperty Name="teacher_course_assignement" Relationship="Self.teacher_course_assignement_user_FK" FromRole="usuario" ToRole="teacher_course_assignement" />
+          <NavigationProperty Name="user_type" Relationship="Self.user_type_FK" FromRole="usuario" ToRole="user_type" />
+        </EntityType>
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="start_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="end_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="course_career_FK">
+          <End Role="career" Type="Self.career" Multiplicity="1" />
+          <End Role="course" Type="Self.course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="career">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="course">
+              <PropertyRef Name="id_career" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_career_FK">
+          <End Role="career" Type="Self.career" Multiplicity="0..1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="career">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="id_career" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teacher_course_assignement_course_FK">
+          <End Role="course" Type="Self.course" Multiplicity="1" />
+          <End Role="teacher_course_assignement" Type="Self.teacher_course_assignement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="course">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teacher_course_assignement">
+              <PropertyRef Name="id_course" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="course_user_FK">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="incription_course" Type="Self.incription_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="incription_course">
+              <PropertyRef Name="id_student" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="state_inscription">
+          <End Role="result_state" Type="Self.result_state" Multiplicity="1" />
+          <End Role="incription_course" Type="Self.incription_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="result_state">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="incription_course">
+              <PropertyRef Name="id_state" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teacher_coure_fk">
+          <End Role="teacher_course_assignement" Type="Self.teacher_course_assignement" Multiplicity="1" />
+          <End Role="incription_course" Type="Self.incription_course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_course_assignement">
+              <PropertyRef Name="id_assign" />
+            </Principal>
+            <Dependent Role="incription_course">
+              <PropertyRef Name="id_course" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="teacher_course_assignement_user_FK">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="teacher_course_assignement" Type="Self.teacher_course_assignement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teacher_course_assignement">
+              <PropertyRef Name="id_teacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="user_type_FK">
+          <End Role="user_type" Type="Self.user_type" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="id_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="universityEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="career" EntityType="Self.career" />
+          <EntitySet Name="course" EntityType="Self.course" />
+          <EntitySet Name="incription_course" EntityType="Self.incription_course" />
+          <EntitySet Name="result_state" EntityType="Self.result_state" />
+          <EntitySet Name="teacher_course_assignement" EntityType="Self.teacher_course_assignement" />
+          <EntitySet Name="user_type" EntityType="Self.user_type" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
+          <AssociationSet Name="course_career_FK" Association="Self.course_career_FK">
+            <End Role="career" EntitySet="career" />
+            <End Role="course" EntitySet="course" />
+          </AssociationSet>
+          <AssociationSet Name="user_career_FK" Association="Self.user_career_FK">
+            <End Role="career" EntitySet="career" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="teacher_course_assignement_course_FK" Association="Self.teacher_course_assignement_course_FK">
+            <End Role="course" EntitySet="course" />
+            <End Role="teacher_course_assignement" EntitySet="teacher_course_assignement" />
+          </AssociationSet>
+          <AssociationSet Name="course_user_FK" Association="Self.course_user_FK">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="incription_course" EntitySet="incription_course" />
+          </AssociationSet>
+          <AssociationSet Name="state_inscription" Association="Self.state_inscription">
+            <End Role="result_state" EntitySet="result_state" />
+            <End Role="incription_course" EntitySet="incription_course" />
+          </AssociationSet>
+          <AssociationSet Name="teacher_coure_fk" Association="Self.teacher_coure_fk">
+            <End Role="teacher_course_assignement" EntitySet="teacher_course_assignement" />
+            <End Role="incription_course" EntitySet="incription_course" />
+          </AssociationSet>
+          <AssociationSet Name="teacher_course_assignement_user_FK" Association="Self.teacher_course_assignement_user_FK">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="teacher_course_assignement" EntitySet="teacher_course_assignement" />
+          </AssociationSet>
+          <AssociationSet Name="user_type_FK" Association="Self.user_type_FK">
+            <End Role="user_type" EntitySet="user_type" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="smarbitModelStoreContainer" CdmEntityContainer="universityEntities">
+          <EntitySetMapping Name="career">
+            <EntityTypeMapping TypeName="smarbitModel.career">
+              <MappingFragment StoreEntitySet="career">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="is_enabled" ColumnName="is_enabled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="course">
+            <EntityTypeMapping TypeName="smarbitModel.course">
+              <MappingFragment StoreEntitySet="course">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="is_enabled" ColumnName="is_enabled" />
+                <ScalarProperty Name="id_career" ColumnName="id_career" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="incription_course">
+            <EntityTypeMapping TypeName="smarbitModel.incription_course">
+              <MappingFragment StoreEntitySet="incription_course">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="observation" ColumnName="observation" />
+                <ScalarProperty Name="id_student" ColumnName="id_student" />
+                <ScalarProperty Name="id_course" ColumnName="id_course" />
+                <ScalarProperty Name="id_state" ColumnName="id_state" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="result_state">
+            <EntityTypeMapping TypeName="smarbitModel.result_state">
+              <MappingFragment StoreEntitySet="result_state">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teacher_course_assignement">
+            <EntityTypeMapping TypeName="smarbitModel.teacher_course_assignement">
+              <MappingFragment StoreEntitySet="teacher_course_assignement">
+                <ScalarProperty Name="id_assign" ColumnName="id_assign" />
+                <ScalarProperty Name="id_course" ColumnName="id_course" />
+                <ScalarProperty Name="id_teacher" ColumnName="id_teacher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_type">
+            <EntityTypeMapping TypeName="smarbitModel.user_type">
+              <MappingFragment StoreEntitySet="user_type">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="smarbitModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="complete_name" ColumnName="complete_name" />
+                <ScalarProperty Name="dpi" ColumnName="dpi" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="cell_phone" ColumnName="cell_phone" />
+                <ScalarProperty Name="is_enabled" ColumnName="is_enabled" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="id_career" ColumnName="id_career" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="database_firewall_rules">
+            <EntityTypeMapping TypeName="smarbitModel.database_firewall_rules">
+              <MappingFragment StoreEntitySet="database_firewall_rules">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
+                <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

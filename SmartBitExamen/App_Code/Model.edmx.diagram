@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5b69fe1157f74d949b94486ba2f8064a" Name="Diagram1">
+        <EntityTypeShape EntityType="smarbitModel.career" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="smarbitModel.course" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="smarbitModel.incription_course" Width="1.5" PointX="7.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="smarbitModel.result_state" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="smarbitModel.teacher_course_assignement" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="smarbitModel.user_type" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="smarbitModel.usuario" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="smarbitModel.database_firewall_rules" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <AssociationConnector Association="smarbitModel.course_career_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="smarbitModel.user_career_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="smarbitModel.teacher_course_assignement_course_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="smarbitModel.course_user_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="smarbitModel.state_inscription" ManuallyRouted="false" />
+        <AssociationConnector Association="smarbitModel.teacher_coure_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="smarbitModel.teacher_course_assignement_user_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="smarbitModel.user_type_FK" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
